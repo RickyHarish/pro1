@@ -32,14 +32,14 @@ app.post("/players/", async (request, response) => {
   const teamDetails = request.body;
   //const {playerId} = request.lastId;
   const { playerId, playerName, jerseyNumber, role } = teamDetails;
-  const getTeamQuery = `INSERT INTO cricket_team (player_id, player_name, jersey_number, role) VALUES(${player_id},${player_name}, ${jursey_number}, ${role}) `;
+  const getTeamQuery = `INSERT INTO cricket_team (player_id, player_name, jersey_number, role) VALUES(${playerId},${playerName}, ${jurseyNumber}, ${role}) `;
   const teamArray = await db.run(getTeamQuery);
   response.send(playerId);
 });
 
 app.get("/players/:playerId/", async (request, response) => {
   const { plyerId } = request.params;
-  const getTeamQuery = `SELECT * FROM cricket_team WHERE player_id = playerId;`;
+  const getTeamQuery = `SELECT * FROM cricket_team WHERE player_id = ${playerId};`;
   const teamArray = await db.get(getTeamQuery);
   response.send(teamArray);
 });
@@ -54,6 +54,7 @@ app.put("/players/:playerId/", async (request, response) => {
 });
 
 app.delete("/players/:playerId/", async (request, response) => {
+  const { playerId } = request.params;
   const getTeamQuery = `DELETE FROM cricket_team WHERE player_id = ${playerId};`;
   const teamArray = await db.all(getTeamQuery);
   response.send("Player Removed");
